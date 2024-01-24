@@ -53,7 +53,6 @@ function Card() {
 
   const glowProps = useSpring({
     boxShadow: hoveredIndex !== -1 ? '0 0 20px rgba(0, 0, 255, 0.8)' : '0 0 0 rgba(0, 0, 255, 0)',
-    config: { duration: 200 },
   });
 
   return (
