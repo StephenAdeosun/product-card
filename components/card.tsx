@@ -49,11 +49,13 @@ function Card() {
   };
 
   return (
-    <div className="flex flex-wrap justify-around relative">
+    <div className="flex flex-wrap justify-around gap-4 relative">
       {productData.map((product, index) => (
         <div
           key={product.id}
-          className="w-full sm:w-1/2 md:w-1/4 lg:w-1/4 xl:w-1/4 p-4 relative"
+          className={`w-full sm:w-1/2 md:w-1/4 lg:w-1/4 xl:w-1/4 p-4 relative border rounded transition duration-300 ${
+            hoveredIndex === index ? 'border-blue-500' : 'border-gray-300'
+          }`}
           onMouseEnter={() => handleCardHover(index)}
           onMouseLeave={handleCardLeave}
         >
@@ -65,7 +67,7 @@ function Card() {
               <div className="absolute inset-0 bg-black opacity-50 flex items-center justify-center z-10">
                 <div className="mt-4">
                   <button
-                    className="bg-blue-900 mt-14 text-white px-4 py-2 rounded"
+                    className="bg-blue-900 mt-14 z-5 text-white px-4 py-2 rounded"
                     onClick={handleButtonClick}
                   >
                     View More
