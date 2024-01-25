@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useSpring, animated } from 'react-spring';
 
+interface Product {
+  id: number;
+  title: string;
+  price: number;
+}
+
 const productData = [
   { id: 1, title: 'Product 1', price: 50 },
   { id: 2, title: 'Product 2', price: 100 },
@@ -18,19 +24,30 @@ function Card() {
   const [quantity, setQuantity] = useState(1);
   const [hoveredIndex, setHoveredIndex] = useState(-1);
   const [searchTerm, setSearchTerm] = useState('');
-  const [isLoading, setIsLoading] = useState(true); // New state for loading
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate an API call or any async operation
     const fetchData = async () => {
-      await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate a 2-second delay
+      await new Promise((resolve) => setTimeout(resolve, 2000));
       setIsLoading(false);
+      setFilteredProducts(productData); // Initially, display all products
     };
-
+  
     fetchData();
-  }, []); // Run the effect only once on mount
+  }, []);
+  
 
-  const handleCardHover = (index) => {
+  useEffect(() => {
+    // Filter products based on the search term
+    const filtered = productData.filter((product) =>
+      product.title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredProducts(filtered);
+  }, [searchTerm]);
+  
+  const handleCardHover = (index: number) => {
     setHoveredIndex(index);
   };
 
@@ -67,7 +84,6 @@ function Card() {
   });
 
   if (isLoading) {
-    // Display skeleton loader while loading
     return (
       <div className="flex flex-col">
         <div className="flex my-8 m-auto items-center justify-between">
@@ -97,7 +113,7 @@ function Card() {
         </div>
 
         <div className="flex flex-wrap justify-around gap-4 relative">
-          {productData.map((product, index) => (
+          {filteredProducts.map((product, index) => (
             <animated.div
               key={product.id}
               className={`w-full sm:w-1/2 md:w-1/4 animate-pulse lg:w-1/4 xl:w-1/4 p-4 relative border rounded transition duration-300`}
@@ -149,7 +165,7 @@ function Card() {
       </div>
 
       <div className="flex flex-wrap justify-around gap-4 relative">
-        {productData.map((product, index) => (
+        {filteredProducts.map((product, index) => (
           <animated.div
             key={product.id}
             className={`w-full sm:w-1/2 md:w-1/4 lg:w-1/4 xl:w-1/4 p-4 relative border rounded transition duration-300`}
