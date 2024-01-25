@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSpring, animated } from 'react-spring';
 
 const productData = [
@@ -18,6 +18,17 @@ function Card() {
   const [quantity, setQuantity] = useState(1);
   const [hoveredIndex, setHoveredIndex] = useState(-1);
   const [searchTerm, setSearchTerm] = useState('');
+  const [isLoading, setIsLoading] = useState(true); // New state for loading
+
+  useEffect(() => {
+    // Simulate an API call or any async operation
+    const fetchData = async () => {
+      await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate a 2-second delay
+      setIsLoading(false);
+    };
+
+    fetchData();
+  }, []); // Run the effect only once on mount
 
   const handleCardHover = (index) => {
     setHoveredIndex(index);
@@ -54,6 +65,60 @@ function Card() {
   const glowProps = useSpring({
     boxShadow: hoveredIndex !== -1 ? '0 0 20px rgba(0, 0, 255, 0.8)' : '0 0 0 rgba(0, 0, 255, 0)',
   });
+
+  if (isLoading) {
+    // Display skeleton loader while loading
+    return (
+      <div className="flex flex-col">
+        <div className="flex my-8 m-auto items-center justify-between">
+          <div className="relative">
+            <input
+              type="text"
+              placeholder="Search by title"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="p-2 pr-8 border rounded-xl m-auto focus:outline-none focus:border-red-500"
+            />
+            <svg
+              className="absolute right-2 top-2 w-5 h-5 text-gray-500 pointer-events-none"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M21 21l-5-5m-1.535-1.536a10 10 0 111.536-1.535"
+              ></path>
+            </svg>
+          </div>
+        </div>
+
+        <div className="flex flex-wrap justify-around gap-4 relative">
+          {productData.map((product, index) => (
+            <animated.div
+              key={product.id}
+              className={`w-full sm:w-1/2 md:w-1/4 animate-pulse lg:w-1/4 xl:w-1/4 p-4 relative border rounded transition duration-300`}
+              onMouseEnter={() => handleCardHover(index)}
+              onMouseLeave={handleCardLeave}
+              style={hoveredIndex === index ? glowProps : {}}
+            >
+              <div className="h-40 bg-gray-200 rounded-md flex items-center justify-center"></div>
+              <div className="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-48 mt-4 mb-4"></div>
+              <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[360px] mb-2.5"></div>
+              <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 mb-2.5"></div>
+              <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[330px] mb-2.5"></div>
+              <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[300px] mb-2.5"></div>
+              <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[360px]"></div>
+              <span className="sr-only">Loading...</span>
+            </animated.div>
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col">
@@ -140,9 +205,7 @@ function Card() {
                       aliquet leo eu nisi posuere, id varius augue laoreet. Proin non
                       vestibulum justo.
                     </p>
-                    <p className="mt-4">
-                      Additional details about the product can go here.
-                    </p>
+                    <p className="mt-4">Additional details about the product can go here.</p>
                     <div className="mt-10 flex items-center">
                       <button
                         className="bg-blue-800 text-white px-4 py-2 flex rounded mr-4"
