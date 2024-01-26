@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useSpring, animated } from 'react-spring';
+import { useTrail, a } from '@react-spring/web'
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 interface Product {
   id: number;
@@ -82,6 +85,11 @@ function Card() {
   const glowProps = useSpring({
     boxShadow: hoveredIndex !== -1 ? '0 0 20px rgba(0, 0, 255, 0.8)' : '0 0 0 rgba(0, 0, 255, 0)',
   });
+  useEffect(() => {
+    AOS.init();
+    AOS.refresh();
+  }, []);
+
 
   if (isLoading) {
     return (
@@ -191,8 +199,8 @@ function Card() {
               )}
             </div>
             {isButtonClicked && hoveredIndex === index && (
-              <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75 z-20">
-                <div className="bg-white p-6 rounded shadow-lg max-w-4xl transition-opacity">
+              <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75 z-20" >
+                <div className="bg-white p-6 rounded shadow-lg max-w-4xl transition-opacity" data-aos="zoom-in" data-aos-duration='400'>
                   <div className="flex justify-end mb-4">
                     <button
                       className="text-gray-500 hover:text-gray-700"
@@ -214,14 +222,14 @@ function Card() {
                       </svg>
                     </button>
                   </div>
-                  <div>
-                    <h2 className="text-2xl font-bold mb-4">Detailed Description</h2>
-                    <p>
+                  <div >
+                    <h2 className="text-2xl font-bold mb-4" data-aos="zoom-in" data-aos-duration='600'>Detailed Description</h2>
+                    <p data-aos="zoom-in" data-aos-duration='800'>
                       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
                       aliquet leo eu nisi posuere, id varius augue laoreet. Proin non
                       vestibulum justo.
                     </p>
-                    <p className="mt-4">Additional details about the product can go here.</p>
+                    <p className="mt-4" data-aos="zoom-in" data-aos-duration='1000'>Additional details about the product can go here.</p>
                     <div className="mt-10 flex items-center">
                       <button
                         className="bg-blue-800 text-white px-4 py-2 flex rounded mr-4"
