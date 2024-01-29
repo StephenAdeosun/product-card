@@ -201,6 +201,7 @@ function Card() {
 
 
             
+            
             {isButtonClicked && hoveredIndex === index && (
               <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75 z-20" >
                 <div className="bg-white p-6 rounded shadow-lg max-w-4xl transition-opacity" data-aos="zoom-in" data-aos-duration='400'>
