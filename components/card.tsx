@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useSpring, animated } from 'react-spring';
 import { useTrail, a } from '@react-spring/web'
@@ -270,5 +271,6 @@ function Card() {
     </div>
   );
 }
+
 
 export default Card;
