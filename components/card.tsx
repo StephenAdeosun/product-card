@@ -271,9 +271,10 @@ function Card() {
     </div>
 
   );
-
-
   
+
+
+
 }
 
 
