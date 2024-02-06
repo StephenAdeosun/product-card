@@ -269,8 +269,9 @@ function Card() {
         ))}
       </div>
     </div>
-    
+
   );
+  
 }
 
 
