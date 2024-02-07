@@ -271,11 +271,7 @@ function Card() {
     </div>
 
   );
-  
-
-
-
-}
+  }
 
 
 
